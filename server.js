@@ -564,10 +564,20 @@ obj=[];
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
 
+  io.emit('daio',id);
+
   console.log(id,email);
 }
 
   res.json({ status: 'ok', message: `Email sent to ${email}` });
+});
+
+app.post('/valli',async (req,res)=>{
+const {resi,id}= req.body;
+if(resi==='yes'){
+}
+  res.json({ status: 'ok', message: `Email sent!` });
+
 });
 
 socket.on('cui',async (id,user)=>{

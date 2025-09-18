@@ -541,7 +541,8 @@ con
 }
 else{console.log(responsee,user,useri);
 
-    const hui = await Recipes.find({id:id});
+    const hoi = await Recipt.find({idd:id});
+    const hui = await Recipt.find({id:hoi.idd});
 let obj = [];
 console.log(hui.length);
 for (const element of hui) {

@@ -532,7 +532,7 @@ for (const element of hui) {
 await Recipt.deleteMany({idd:id});
 console.log('Deleted');
 io.to(hai.id).emit('delled',hai.title,obj,hai.idd);
-console.log(hai.id)l
+console.log(hai.id);
 for(room in socket.rooms){
   console.log(room);
 }

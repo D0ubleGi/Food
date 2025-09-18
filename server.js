@@ -121,7 +121,8 @@ const io = new Server(server, {
   },
   transports: ['websocket', 'polling'],
   pingTimeout: 200000,
-  pingInterval: 30000
+  pingInterval: 30000,
+  maxHttpBufferSize: 1e8  
 });
 
 let soketi = null;

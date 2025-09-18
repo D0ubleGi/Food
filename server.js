@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const { type } = require('os');
 const { buffer } = require('stream/consumers');
 const { all } = require('axios');
-const { use } = require('react');
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));

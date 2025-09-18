@@ -534,13 +534,14 @@ socket.on('sende',async (user,useri,title)=>{console.log('senddd');
 const usi = await User.findOne({user:user});
 socket.emit('senkk',usi.email,user,useri,title);
 });
-app.post('/delete', async (req, res) => {console.log('dell');
+app.post('/delete', async (req, res) => {
   const { email, responsee, title, id } = req.body;
 
   await Recipt.deleteOne({idd:id});
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
-  console.log("deletedd");
+
+  console.log(id,email);
 
   res.json({ status: 'ok', message: `Email sent to ${email}` });
 });

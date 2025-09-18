@@ -301,7 +301,7 @@ socket.on('check', async (id, nami, maxmumi,useri) => {
     socket.join(id);
     const Receptebi = await Recipt.find({id:id});
     console.log(Receptebi.length);
-    socket.emit('reciptebi',Receptebi);
+    io.to(id).emit('reciptebi',Receptebi);
   });
 
 socket.on('sear', async (term, id) => {
@@ -531,11 +531,8 @@ for (const element of hui) {
   }
 await Recipt.deleteMany({idd:id});
 console.log('Deleted');
-io.to(hai.id).emit('delled',hai.title,obj,hai.idd);
-console.log(hai.id);
-for(room of socket.rooms){
-  console.log(room);
-}
+socket.emit('delled',hai.title,obj,hai.idd);
+
 obj=[];
 });
 

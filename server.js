@@ -543,12 +543,12 @@ else{console.log(responsee,user,useri);
 
     const hui = await Recipes.find({id:id});
 let obj = [];
-
+console.log(hui.length);
 for (const element of hui) {
     const as = await User.findOne({user:element.user});
    obj.push({ email: as.email, useri: as.user });console.log(as.user);
   }
-
+console.log(obj.length);
 socket.emit('delled',responsee,obj,user,useri,title);
 obj=[];
 

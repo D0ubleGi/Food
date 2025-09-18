@@ -124,12 +124,14 @@ const io = new Server(server, {
   pingInterval: 30000
 });
 
+let soketi = null;
 io.on('connection', (socket) => {
   console.log('🟢 New user connected:', socket.id);
   socket.on('disconnect', () => {
     console.log('🔴 User disconnected:', socket.id);
   });
 
+  soketi=socket.id;
 
   socket.on('register', async (username, email, password) => {
     console.log('📩 Registering user:', username);
@@ -550,8 +552,9 @@ for (const element of hui) {
     const as = await User.findOne({user:element.user});
    obj.push({ email: as.email, useri: as.user });console.log(as.user);
   }
+  
   console.log(responsee,obj,user,useri,hoi.title);
-socket.emit('delled',responsee,obj,user,useri,hoi.title);
+io.to(soketi).emit('delled', responsee, obj, user, useri, hoi.title);
 obj=[];
 
   await Recipt.deleteOne({idd:id});

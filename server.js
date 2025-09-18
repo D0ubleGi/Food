@@ -553,7 +553,7 @@ for (const element of hui) {
    obj.push({ email: as.email, useri: as.user });console.log(as.user);
   }
   console.log(responsee,obj,user,useri,hoi.title);
-   await axios.get(
+   await axios.post(
         'https://beckend2.onrender.com/valid',
         {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
       );

@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const { type } = require('os');
 const { buffer } = require('stream/consumers');
-const { all } = require('axios');
+const axios = require("axios");
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));

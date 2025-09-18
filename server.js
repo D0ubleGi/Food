@@ -542,7 +542,7 @@ con
 else{console.log(responsee,user,useri);
 
     const hoi = await Recipt.findOne({idd:id});
-    const hui = await Recipt.find({id:hoi.id});
+    const hui = await Recipes.find({id:hoi.id});
 let obj = [];
 console.log(hui.length);
 for (const element of hui) {

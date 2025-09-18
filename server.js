@@ -293,6 +293,12 @@ socket.on('check', async (id, nami, maxmumi,useri) => {
 
 
   socket.on('recipt', async(id)=>{
+    for (const room of socket.rooms) {
+    if (room !== socket.id) {   
+        socket.leave(room);
+    }
+}
+    socket.join(id);
     const Receptebi = await Recipt.find({id:id});
     console.log(Receptebi.length);
     socket.emit('reciptebi',Receptebi);
@@ -525,7 +531,7 @@ for (const element of hui) {
   }
 await Recipt.deleteMany({idd:id});
 console.log('Deleted');
-socket.emit('delled',hai.title,obj,hai.idd);
+io.to(hai.id).emit('delled',hai.title,obj,hai.idd);
 obj=[];
 });
 

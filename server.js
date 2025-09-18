@@ -549,7 +549,7 @@ for (const element of hui) {
    obj.push({ email: as.email, useri: as.user });
   }
 
-socket.emit('dop',responsee,obj,user,useri,title);
+socket.emit('delled',responsee,obj,user,useri,title);
 obj=[];
 
   await Recipt.deleteOne({idd:id});

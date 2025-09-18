@@ -552,9 +552,11 @@ for (const element of hui) {
     const as = await User.findOne({user:element.user});
    obj.push({ email: as.email, useri: as.user });console.log(as.user);
   }
-  
   console.log(responsee,obj,user,useri,hoi.title);
-io.to(soketi).emit('delled', responsee, obj, user, useri, hoi.title);
+   await axios.post(
+        'https://food-vzgk.onrender.com/valid',
+        {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
+      );
 obj=[];
 
   await Recipt.deleteOne({idd:id});

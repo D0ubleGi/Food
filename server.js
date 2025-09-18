@@ -532,14 +532,14 @@ obj=[];
 
 socket.on('sende',async (user,useri,title)=>{console.log('senddd');
 const usi = await User.findOne({user:user});
-socket.emit('senkk',usi.email,user,useri,title);console.log(user,useri);
+socket.emit('senkk',usi.email,user,useri,title);
 });
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
 
 }
-else{
+else{console.log(responsee,user,useri);
 
     const hui = await Recipes.find({id:id});
 let obj = [];

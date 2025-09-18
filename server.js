@@ -554,7 +554,7 @@ for (const element of hui) {
   }
   console.log(responsee,obj,user,useri,hoi.title);
    await axios.post(
-        'https://food-vzgk.onrender.com/valid',
+        'https://beckend2.onrender.com/valid',
         {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
       );
 obj=[];

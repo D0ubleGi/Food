@@ -293,7 +293,6 @@ socket.on('check', async (id, nami, maxmumi,useri) => {
 
 
   socket.on('recipt', async(id)=>{
-    
     socket.join(id);
     const Receptebi = await Recipt.find({id:id});
     console.log(Receptebi.length);
@@ -457,7 +456,7 @@ socket.on('addnew', async (recs) => {
     console.error('Error saving recipe:', err);
   }
   const co = await Recipt.find({id:recs.id});
-  socket.emit('reciptebi',co);
+  io.to(recs.id).emit('reciptebi',co);
 });
 
 socket.on('desk',async(id,html)=>{console.log(id);

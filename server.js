@@ -534,7 +534,7 @@ socket.on('sende',async (user,useri,title)=>{console.log('senddd');
 const usi = await User.findOne({user:user});
 socket.emit('senkk',usi.email,user,useri,title);
 });
-app.post('/delete', async (req, res) => {
+app.post('/delete', async (req, res) => {console.log('dell');
   const { email, responsee, title, id } = req.body;
 
   await Recipt.deleteOne({idd:id});

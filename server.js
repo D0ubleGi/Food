@@ -535,13 +535,29 @@ const usi = await User.findOne({user:user});
 socket.emit('senkk',usi.email,user,useri,title);
 });
 app.post('/delete', async (req, res) => {
-  const { email, responsee, title, id } = req.body;
+  const { email, responsee, title, user, useri, id } = req.body;
+if(responsee==='no'){
+
+}
+else{
+
+    const hui = await Recipes.find({id:id});
+let obj = [];
+
+for (const element of hui) {
+    const as = await User.findOne({user:element.user});
+   obj.push({ email: as.email, useri: as.user });
+  }
+
+socket.emit('dop',responsee,obj,user,useri,title);
+obj=[];
 
   await Recipt.deleteOne({idd:id});
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
 
   console.log(id,email);
+}
 
   res.json({ status: 'ok', message: `Email sent to ${email}` });
 });

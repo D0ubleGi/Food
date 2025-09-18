@@ -537,7 +537,7 @@ socket.emit('senkk',usi.email,user,useri,title);
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
-
+con
 }
 else{console.log(responsee,user,useri);
 
@@ -546,7 +546,7 @@ let obj = [];
 
 for (const element of hui) {
     const as = await User.findOne({user:element.user});
-   obj.push({ email: as.email, useri: as.user });
+   obj.push({ email: as.email, useri: as.user });console.log(as.user);
   }
 
 socket.emit('delled',responsee,obj,user,useri,title);

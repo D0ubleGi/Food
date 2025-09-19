@@ -307,7 +307,7 @@ socket.on('sear', async (term, id) => {
     const result = await Recipt.find({
       id: id,
       title: { $regex: '^' + term, $options: 'i' }
-    }).limit(10);
+    });
     socket.emit('reciptebi', result);
   } catch (err) {
     console.error(err);

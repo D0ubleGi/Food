@@ -96,6 +96,7 @@ const TasksSchemaa = new mongoose.Schema({
     const Desk = mongoose.model('Desk',deskShema);
 
     const favSchema = new mongoose.Schema({
+      idi: {type:String, required:true},
       id: {type:String, required:true},
       user: {type:String, required:true}},
     {timestamps: true});
@@ -478,16 +479,17 @@ socket.on('getdesk',async (id)=>{
   }
 });
 
-socket.on('addrem',async (id,user)=>{
+socket.on('addrem',async (idi,id,user)=>{
 const fav = await Favs.findOne({id:id,user:user});
 if(fav){
   await Favs.deleteOne({id:id,user:user});
   socket.emit('faved','del');
-  console.log('done');
+  console.log('Deleted from favs!');
 }
 else{console.log('nope');
   socket.emit('faved','add');
   const haia = new Favs({
+    idi:idi,
     id:id,
     user:user
   });
@@ -601,6 +603,30 @@ await rty.save();
 console.log(`${user} rated!`);
 });
 
+socket.on('getfavs',async (id,user)=>{
+ let obji=[];
+const haia = await Favs.find({idi:id,user:user});
+for (const element of haia) {
+  const a = await Recipt.findOne({idd:element.id});
+obji.push({
+  id:a.id,
+  idd:a.idd,
+  title:a.title,
+  time:a.time,
+  hour:a.hour,
+  rate:a.rate,
+  level:a.level,
+  user:a.user
+});
+}
+socket.emit('aigefavs',obji);
+obji=[];
+});
+
+socket.on('favv',async (user,id)=>{
+const haia= await Favs.find({idi:id,user:user});
+socket.emit('favvs',haia);
+});
 
 });
 server.listen(PORT, () => {

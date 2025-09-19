@@ -307,7 +307,7 @@ socket.on('sear', async (term, id) => {
     const result = await Recipt.find({
       id: id,
       title: { $regex: '^' + term, $options: 'i' }
-    });
+    }).limit(10);
     socket.emit('reciptebi', result);
   } catch (err) {
     console.error(err);
@@ -572,13 +572,7 @@ obj=[];
   res.json({ status: 'ok', message: `Email sent to ${email}` });
 });
 
-app.post('/valli',async (req,res)=>{
-const {resi,id}= req.body;
-if(resi==='yes'){
-}
-  res.json({ status: 'ok', message: `Email sent!` });
 
-});
 
 socket.on('cui',async (id,user)=>{
 const ch = await Rate.findOne({id:id,user:user});

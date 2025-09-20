@@ -325,14 +325,14 @@ for (const element of result) {
   const a = await Favs.findOne({id:element.idd});
   if(a){
 obji.push({
-  id:a.id,
-  idd:a.idd,
-  title:a.title,
-  time:a.time,
-  hour:a.hour,
-  rate:a.rate,
-  level:a.level,
-  user:a.user
+  id:element.id,
+  idd:element.idd,
+  title:element.title,
+  time:element.time,
+  hour:element.hour,
+  rate:element.rate,
+  level:element.level,
+  user:element.user
 });
   }
 }

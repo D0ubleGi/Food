@@ -314,6 +314,35 @@ socket.on('sear', async (term, id) => {
     console.error(err);
   }
 });
+socket.on('searr', async (term, id) => {
+  try {
+    const result = await Recipt.find({
+      id: id,
+      title: { $regex: '^' + term, $options: 'i' }
+    });
+     let obji=[];
+for (const element of result) {
+  const a = await Favs.findOne({idi:element.id,id:element.idd});
+  if(a){
+obji.push({
+  id:a.id,
+  idd:a.idd,
+  title:a.title,
+  time:a.time,
+  hour:a.hour,
+  rate:a.rate,
+  level:a.level,
+  user:a.user
+});
+  }
+}
+socket.emit('aigefavs',obji);
+obji=[];
+  } 
+  catch (err) {
+    console.error(err);
+  }
+});
 
 socket.on('filter',async (value,id,type)=>{console.log(value);
 if(value==='time'){

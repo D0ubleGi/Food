@@ -655,7 +655,28 @@ obji=[];
 
 socket.on('favv',async (user,id)=>{
 const haia= await Favs.find({idi:id,user:user});
-socket.emit('favvs',haia);
+let objo=[]
+if(haia){
+  for (const element of haia){
+    const recs = await Recipt.findOne({idd:element.id});
+     objo.push({
+      id: recs.id,
+      idd: recs.idd,
+      img: recs.img,
+      imgtype: recs.imgtype,
+      title: recs.title,
+      subtitle: recs.subtitle,
+      time: recs.time,
+      hour: recs.hour,
+      rate: recs.rate,
+      level: recs.level,
+      amount: recs.amount,
+      user: recs.user
+    });
+  }
+}
+socket.emit('reciptebi',objo);
+objo=[];
 });
 
 });

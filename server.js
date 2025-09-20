@@ -675,7 +675,8 @@ if(haia){
     });
   }
 }
-socket.emit('reciptebi',objo);
+const ob = objo.map(r => new Recipt(r));
+socket.emit('reciptebi',ob);
 objo=[];
 });
 

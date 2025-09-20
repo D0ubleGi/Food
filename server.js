@@ -322,7 +322,7 @@ socket.on('searr', async (term, id) => {
     });
      let obji=[];
 for (const element of result) {
-  const a = await Favs.findOne({idi:element.id,id:element.idd});
+  const a = await Favs.findOne({id:element.idd});
   if(a){
 obji.push({
   id:a.id,
@@ -336,6 +336,7 @@ obji.push({
 });
   }
 }
+console.log(obji.length);
 socket.emit('aigefavs',obji);
 obji=[];
   } 

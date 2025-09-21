@@ -696,14 +696,15 @@ const comm = new Comments({
 });
 await comm.save();
 socket.join(id);
-const comms = await Comments.find({id:id,user:user});
+const comms = await Comments.find({id:id});
 console.log(`user ${user} added comment ${comment}`);
 io.to(id).emit('koment',comms);
 });
 
 socket.on('comms',async (id,user)=>{
-const comms = await Comments.find({id,user});
+const comms = await Comments.find({id:id});
 socket.join(id);
+console.log(id,user);
 console.log(comms.length);
 io.to(id).emit('koment',comms);
 });

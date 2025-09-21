@@ -108,6 +108,13 @@ const TasksSchemaa = new mongoose.Schema({
       {timestamps:true});
       const Rate = mongoose.model('Rate',Ratee);
 
+      const Commentss = new mongoose.Schema({
+        id: {type:String, required:true},
+        user: {type:String, required:true},
+        comment: {type:String, required:true}},
+      {timestamps:true});
+      const Comments = mongoose.model('Comments',Commentss);
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -504,6 +511,7 @@ socket.on('desk',async(id,html)=>{console.log(id);
 socket.on('getdesk',async (id)=>{
   const dek = await Desk.findOne({id:id});
   const info = await Recipt.findOne({idd:id});
+  socket.join(id);
   if(dek){
     socket.emit('getit',dek.html,info);
   }
@@ -678,6 +686,24 @@ if(haia){
 const ob = objo.map(r => new Recipt(r));
 socket.emit('reciptebi',ob);
 objo=[];
+});
+
+socket.on('comment', async (id,user,comment)=>{
+const comm = new Comments({
+  id:id,
+  user:user,
+  comment:comment
+});
+await comm.save();
+socket.join(id);
+const comms = await Comments.find({id:id,user:user});
+io.to(id).emit('koment',comms);
+});
+
+socket.on('comms',async (id,user)=>{
+const comms = await Comments.find({id,user});
+socket.join(id);
+io.to(id).emit('koment',comms);
 });
 
 });

@@ -727,10 +727,10 @@ socket.on('shecv',async (id,idd,comment)=>{
     },
     {$set: {comment:comment}}
   );
-});
 const comm = await Comments.find({id:id});
 socket.join(id);
 io.to(id).emit('koment',comm);
+});
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);

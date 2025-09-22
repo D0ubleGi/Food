@@ -112,7 +112,8 @@ const TasksSchemaa = new mongoose.Schema({
         id: {type:String, required:true},
         user: {type:String, required:true},
         comment: {type:String, required:true},
-        date: {type:String, required:true}
+        date: {type:String, required:true},
+        idd: {type:String, required:true}
       },
       {timestamps:true});
       const Comments = mongoose.model('Comments',Commentss);
@@ -690,12 +691,13 @@ socket.emit('reciptebi',ob);
 objo=[];
 });
 
-socket.on('comment', async (id,user,comment,date)=>{
+socket.on('comment', async (id,user,comment,date,idd)=>{
 const comm = new Comments({
   id:id,
   user:user,
   comment:comment,
-  date:date
+  date:date,
+  idd:idd
 });
 await comm.save();
 socket.join(id);

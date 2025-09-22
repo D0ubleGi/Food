@@ -97,7 +97,7 @@ const TasksSchemaa = new mongoose.Schema({
 
     const favSchema = new mongoose.Schema({
       idi: {type:String, required:true},
-      id: {type:String, required:true},
+      id: {type:String, required:true, unique:true},
       user: {type:String, required:true}},
     {timestamps: true});
     const Favs = mongoose.model('Favs',favSchema);

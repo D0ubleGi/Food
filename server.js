@@ -137,7 +137,7 @@ const io = new Server(server, {
 });
 
 let soketi = null;
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log('🟢 New user connected:', socket.id);
   socket.on('disconnect', () => {
     console.log('🔴 User disconnected:', socket.id);
@@ -719,6 +719,18 @@ const comm = await Comments.findOne({id:id,idd:idd});
 socket.emit('editit',id,idd,comm.comment);
 });
 
+socket.on('shecv',async (id,idd,comment)=>{
+  await Comments.updateOne(
+    {
+    id:id,
+    idd:idd
+    },
+    {$set: {comment:comment}}
+  );
+});
+const comm = await Comments.find({id:id});
+socket.join(id);
+io.to(id).emit('koment',comm);
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);

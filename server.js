@@ -564,17 +564,14 @@ else{
 socket.on('dell', async (id,user)=>{
   const hai = await Recipt.findOne({idd:id});
   const hui = await Recipes.find({id:hai.id});
-let obj = [];
 
-for (const element of hui) {
-    const as = await User.findOne({user:element.user});
-   obj.push({ email: as.email, useri: as.user });
-  }
+const users = await User.find({ user: { $in: hui.map(el => el.user) } });
+const obj = users.map(u => ({ email: u.email, useri: u.user }));
+
 await Recipt.deleteMany({idd:id});
 console.log('Deleted');
 socket.emit('delled',hai.title,obj,hai.idd);
 
-obj=[];
 });
 
 
@@ -591,17 +588,16 @@ else{console.log(responsee,user,useri);
 
     const hoi = await Recipt.findOne({idd:id});
     const hui = await Recipes.find({id:hoi.id});
-let obj = [];
-for (const element of hui) {
-    const as = await User.findOne({user:element.user});
-   obj.push({ email: as.email, useri: as.user });console.log(as.user);
-  }
+const usernames = hui.map(el => el.user);
+
+const users = await User.find({ user: { $in: usernames } });
+
+const obj = users.map(u => ({ email: u.email, useri: u.user }));
   console.log(responsee,obj,user,useri,hoi.title);
    await axios.post(
         'https://beckend2.onrender.com/valid',
         {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
       );
-obj=[];
 
   await Recipt.deleteOne({idd:id});
   await Favs.deleteMany({id:id});
@@ -644,51 +640,74 @@ await rty.save();
 console.log(`${user} rated!`);
 });
 
-socket.on('getfavs',async (id,user)=>{
- let obji=[];
-const haia = await Favs.find({idi:id,user:user});
-for (const element of haia) {
-  const a = await Recipt.findOne({idd:element.id});
-obji.push({
-  id:a.id,
-  idd:a.idd,
-  title:a.title,
-  time:a.time,
-  hour:a.hour,
-  rate:a.rate,
-  level:a.level,
-  user:a.user
-});
-}
-socket.emit('aigefavs',obji);
-obji=[];
+socket.on('getfavs', async (id, user) => {
+  try {
+    const haia = await Favs.find({ idi: id, user: user });
+
+    if (haia.length === 0) {
+      socket.emit('aigefavs', []);
+      return;
+    }
+
+    const recipeIds = haia.map(f => f.id);
+
+    const recipes = await Recipt.find({ idd: { $in: recipeIds } });
+
+    const obji = recipes.map(r => ({
+      id: r.id,
+      idd: r.idd,
+      title: r.title,
+      time: r.time,
+      hour: r.hour,
+      rate: r.rate,
+      level: r.level,
+      user: r.user
+    }));
+
+    socket.emit('aigefavs', obji);
+  } catch (err) {
+    console.error(err);
+    socket.emit('aigefavs', []);
+  }
 });
 
-socket.on('favv',async (user,id)=>{
-const haia= await Favs.find({idi:id,user:user});
-let objo=[]
-if(haia){
-  for (const element of haia){
-    const recs = await Recipt.findOne({idd:element.id});
-     objo.push({
-      id: recs.id,
-      idd: recs.idd,
-      img: recs.img,
-      imgtype: recs.imgtype,
-      title: recs.title,
-      subtitle: recs.subtitle,
-      time: recs.time,
-      hour: recs.hour,
-      rate: recs.rate,
-      level: recs.level,
-      amount: recs.amount,
-      user: recs.user
-    });
+
+socket.on('favv', async (user, id) => {
+  try {
+    // Get all fav entries for this user and idi
+    const haia = await Favs.find({ idi: id, user: user });
+    if (haia.length === 0) {
+      socket.emit('reciptebi', []);
+      return;
+    }
+
+    // Collect all recipe IDs
+    const recipeIds = haia.map(f => f.id);
+
+    // Fetch all recipes in one query
+    const recipes = await Recipt.find({ idd: { $in: recipeIds } });
+
+    // Map to the format you need
+    const ob = recipes.map(r => new Recipt({
+      id: r.id,
+      idd: r.idd,
+      img: r.img,
+      imgtype: r.imgtype,
+      title: r.title,
+      subtitle: r.subtitle,
+      time: r.time,
+      hour: r.hour,
+      rate: r.rate,
+      level: r.level,
+      amount: r.amount,
+      user: r.user
+    }));
+
+    socket.emit('reciptebi', ob);
+  } catch (err) {
+    console.error(err);
+    socket.emit('reciptebi', []); // optional fallback
   }
-}
-const ob = objo.map(r => new Recipt(r));
-socket.emit('reciptebi',ob);
-objo=[];
 });
 
 socket.on('comment', async (id,user,comment,date,idd)=>{

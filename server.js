@@ -111,7 +111,9 @@ const TasksSchemaa = new mongoose.Schema({
       const Commentss = new mongoose.Schema({
         id: {type:String, required:true},
         user: {type:String, required:true},
-        comment: {type:String, required:true}},
+        comment: {type:String, required:true},
+        date: {type:String, required:true}
+      },
       {timestamps:true});
       const Comments = mongoose.model('Comments',Commentss);
 
@@ -688,11 +690,12 @@ socket.emit('reciptebi',ob);
 objo=[];
 });
 
-socket.on('comment', async (id,user,comment)=>{
+socket.on('comment', async (id,user,comment,date)=>{
 const comm = new Comments({
   id:id,
   user:user,
-  comment:comment
+  comment:comment,
+  date:date
 });
 await comm.save();
 socket.join(id);
@@ -701,7 +704,7 @@ console.log(`user ${user} added comment ${comment}`);
 io.to(id).emit('koment',comms);
 });
 
-socket.on('comms',async (id,user)=>{
+socket.on('comms',async (id,user)=>{                                             
 const comms = await Comments.find({id:id});
 socket.join(id);
 console.log(id,user);

@@ -735,6 +735,7 @@ io.to(id).emit('koment',comm);
 socket.on('delcom',async (id,idd)=>{
 await Comments.deleteOne({id:id,idd:idd});
 console.log('message deleted!');
+const comm = await Comments.find({id:id});
 socket.join(id);
 io.to(id).emit('koment',comm);
 });

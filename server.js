@@ -714,6 +714,11 @@ console.log(comms.length);
 io.to(id).emit('koment',comms);
 });
 
+socket.on('editt',async (id,idd)=>{
+const comm = await Comments.findOne({id:id,idd:idd});
+socket.emit('editit',id,idd,comm.comment);
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);

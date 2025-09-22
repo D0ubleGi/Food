@@ -20,8 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 console.log("📦 MONGO_URI is:", MONGO_URI);
 
-mongoose.connect(MONGO_URI, {  useNewUrlParser: true,
-  useUnifiedTopology: true, serverSelectionTimeoutMS: 5000 })
+mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 })
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
@@ -29,14 +28,14 @@ mongoose.connect(MONGO_URI, {  useNewUrlParser: true,
   });
 
 const userSchema = new mongoose.Schema({
-  user: { type: String, required: true },
+  user: { type: String, required: true, unique:true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true }
 }, { timestamps: true });
 const User = mongoose.model('User', userSchema);
 
 const IdSchema = new mongoose.Schema({
-  id: { type: String, required: true },
+  id: { type: String, required: true, unique:true },
   name: { type: String, required: true },
   maxmum: { type: String, required: true }
 }, { timestamps: true });
@@ -74,7 +73,7 @@ const TasksSchemaa = new mongoose.Schema({
 
   const RecipeSchema = new mongoose.Schema({
     id: {type: String, required: true},
-    idd: {type: String, required: true},
+    idd: {type: String, required: true,unique:true},
     img: {type: Buffer, required: true},
     imgtype: {type: String, required:true},
     title: {type: String, required: true},
@@ -90,7 +89,7 @@ const TasksSchemaa = new mongoose.Schema({
     const Recipt = mongoose.model('Recipt',RecipeSchema);
 
     const deskShema = new mongoose.Schema({
-      id: {type: String, required: true},
+      id: {type: String, required: true, unique:true},
       html: {type:String, required: true}
     },
     {timestamps:true});
